@@ -8,3 +8,7 @@ spring:
     url: jdbc:mysql://3.106.124.14:3306/5620?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
+
+openai:
+  token: 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
+

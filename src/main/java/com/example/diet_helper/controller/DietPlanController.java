@@ -4,10 +4,11 @@ import com.example.diet_helper.common.R;
 import com.example.diet_helper.pojo.vo.request.DietPlanRequestVO;
 import com.example.diet_helper.pojo.vo.response.DietPlanResponseVO;
 import com.example.diet_helper.service.DietPlanService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/diet-plans")
 public class DietPlanController {

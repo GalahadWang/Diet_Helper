@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class DietPlanRequestVO {
     private Integer userId;
-    private String mealName;
-    private String ingredients;
-    private Boolean isPublic;
-    private String instructions;
+    private Integer currentWeight;
+    private Integer goalWeight;
+    private Integer height;
+    private Integer age;
 }
