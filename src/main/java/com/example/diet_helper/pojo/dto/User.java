@@ -1,4 +1,4 @@
-package com.example.diet_helper.pojo;
+package com.example.diet_helper.pojo.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -22,7 +22,6 @@ public class User {
     private int weight;
     private int height;
     private int age;
-    private Integer gender;
+    private String gender;
     private Date createdAt;
-
 }

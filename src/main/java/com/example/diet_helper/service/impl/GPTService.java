@@ -26,4 +26,16 @@ public class GPTService {
         }
         return "未能获取建议。";
     }
+    public String getQuestion(String prompt){
+        CompletionRequest request = CompletionRequest.builder()
+                .model("gpt-3.5-turbo-instruct")
+                .prompt(prompt)
+                .maxTokens(1000)
+                .build();
+        List<CompletionChoice> choices = openAiService.createCompletion(request).getChoices();
+        if (!choices.isEmpty()) {
+            return choices.get(0).getText().trim();
+        }
+        return "未能获取建议。";
+    }
 }

@@ -2,10 +2,11 @@ package com.example.diet_helper.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.diet_helper.common.R;
-import com.example.diet_helper.pojo.User;
+import com.example.diet_helper.pojo.dto.User;
 import com.example.diet_helper.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,7 +75,7 @@ public class UserController {
         }
         // Set a default value for username
         if (cond.getEmail() != null) {
-//            cond.setUsername("DefaultUsername"); // 设置默认用户名
+//            cond.setUsername("DefaultUsername");
             userService.save(cond);
             System.out.println(cond);
 
@@ -87,4 +88,22 @@ public class UserController {
     }
 
 
+
+    @PostMapping("/update")
+    public R<User> save(@RequestBody User user){
+        System.out.println(user);
+        if (user.getId() == null) {
+            System.out.println("User doesn't exist");
+            userService.save(user);
+            return R.success(user);
+        } else {
+            System.out.println("User already existed, update now");
+            userService.updateById(user);
+            return R.success(user);
+        }
+    }
 }
+
+
+
+
