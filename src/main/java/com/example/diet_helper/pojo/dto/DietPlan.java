@@ -18,11 +18,13 @@ public class DietPlan {
     private Integer userId;
     @TableField(value = "meal_name")
     private String mealName;
-    private String ingredients;
     @TableField(value = "is_public")
     private Boolean isPublic;
-    private String instructions;
+    private String meal;
+    @TableField(value = "generated_date")
     private Date generatedDate;
+    @TableField(value = "which_day")
+    private Integer whichDay;
 
 
 }

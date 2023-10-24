@@ -6,15 +6,11 @@ import com.example.diet_helper.pojo.dto.DietPlan;
 import com.example.diet_helper.pojo.vo.request.DietPlanRequestVO;
 import com.example.diet_helper.pojo.vo.response.DietPlanResponseVO;
 import com.example.diet_helper.service.DietPlanService;
-import org.springframework.beans.BeanUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class DietPlanServiceImpl extends ServiceImpl<DietMapper, DietPlan> implements DietPlanService {
@@ -25,6 +21,7 @@ public class DietPlanServiceImpl extends ServiceImpl<DietMapper, DietPlan> imple
 
     @Override
     public DietPlanResponseVO createDietPlan(DietPlanRequestVO requestVO) {
+
         String userInfo = "I want you to work as a nutritionist." +
                 " I will provide you with all the information you need about an individual who wants to become healthier, stronger, " +
                 "and fitter through a diet plan, " +
@@ -36,52 +33,44 @@ public class DietPlanServiceImpl extends ServiceImpl<DietMapper, DietPlan> imple
                 ", Height: " + requestVO.getHeight() +
                 ", Age: " + requestVO.getAge()+
                 "You must answer only in the following format:" +
-                " mealname:; ingredients:; instructions:;" +
-                "For example, Meal 1: Breakfast\n" +
-                "Ingredients: \n" +
-                "- 2 eggs\n" +
-                "- 1 avocado\n" +
-                "- 2 slices of whole wheat toast\n" +
-                "- 1 small banana\n" +
-                "Instructions:\n" +
-                "1. Scramble the eggs in a non-stick pan over medium heat.\n" +
-                "2. Slice the avocado and mash it onto the toast.\n" +
-                "3. Serve the eggs and toast with a side of sliced banana." +
+                "mealname:; Meal:;" +
+                "For example: Meal 1: Breakfast\n Meal: Oatmeal with almond milk, sliced bananas, and a sprinkle of cinnamon."+
+                "Generates up to 6 meals." +
+                "Please format your answer strictly according to the example I gave you, including capitalization." +
                 "And please don't include any other descriptive information";
 
-        String generatedDietPlan = gptService.getFromGPT(userInfo);
+        for (int day = 1; day <= 7; day++) {
+            String generatedDietPlan = gptService.getFromGPT(userInfo);
 
-        // 分割文本以获取每个餐次的数据
-        String[] mealSections = generatedDietPlan.split("Meal \\d+: ");
-        List<DietPlan> dietPlanList = new ArrayList<>();
+            // 使用正则表达式分割每一餐
+            String[] meals = generatedDietPlan.split("Meal [0-9]+:");
 
-        for (String mealSection : mealSections) {
-            if (!mealSection.trim().isEmpty()) {
-                String mealName = mealSection.substring(0, mealSection.indexOf("\n")).trim();
-                String ingredients = mealSection.substring(mealSection.indexOf("Ingredients:") + 12, mealSection.indexOf("Instructions:")).trim();
-                String instructions = mealSection.substring(mealSection.indexOf("Instructions:") + 13).trim();
+            for (int i = 1; i < meals.length; i++) { // 从1开始，因为split的结果中第一个元素为空
+                String mealData = meals[i].trim();
+                DietPlan dietPlan = getPlan(requestVO, mealData, day);
 
-                DietPlan dietPlan = new DietPlan();
-                dietPlan.setMealName(mealName);
-                dietPlan.setIngredients(ingredients);
-                dietPlan.setInstructions(instructions);
-
-                // 其他属性
-                dietPlan.setUserId(requestVO.getUserId());
-                dietPlan.setGeneratedDate(new Date());  // 设置当前日期为生成日期
-
-                dietPlanList.add(dietPlan);
+                dietPlanMapper.insert(dietPlan);
             }
         }
 
-        for (DietPlan dietPlan : dietPlanList) {
-            dietPlanMapper.insert(dietPlan);
+        return null;
+    }
+
+    @NotNull
+    private static DietPlan getPlan(DietPlanRequestVO requestVO, String mealData, int day) {
+        String[] mealParts = mealData.split("\nMeal:");
+
+        DietPlan dietPlan = new DietPlan();
+
+        dietPlan.setMealName(mealParts[0].trim());  // e.g., "Breakfast", "Mid-Morning Snack", etc.
+        if (mealParts.length > 1) {
+            dietPlan.setMeal(mealParts[1].trim());  // e.g., "Oatmeal with almond milk..."
         }
 
-        DietPlanResponseVO responseVO = new DietPlanResponseVO();
-        // 这里只返回最后一个DietPlan的属性
-        BeanUtils.copyProperties(dietPlanList.get(dietPlanList.size() - 1), responseVO);
-        return responseVO;//其实也可以返回null
+        dietPlan.setUserId(requestVO.getUserId());
+        dietPlan.setGeneratedDate(new Date());  // 设置当前日期为生成日期
+        dietPlan.setWhichDay(day);  // 设置当天的日期
+        return dietPlan;
     }
 
     @Override
