@@ -1,5 +1,7 @@
 package com.example.diet_helper.controller;
 
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.diet_helper.common.R;
 
 import com.example.diet_helper.pojo.dto.ExamQuestion;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -43,9 +46,13 @@ public class ExamQuestionController {
                 String GPTAnswer = gpt.generateQuestionText();
                 System.out.println(GPTAnswer);
                 String gpt_op_a = gpt.generateOption(GPTAnswer,"A");
+                System.out.println(gpt_op_a);
                 String gpt_op_b = gpt.generateOption(GPTAnswer,"B");
+                System.out.println(gpt_op_b);
                 String gpt_op_c = gpt.generateOption(GPTAnswer,"C");
+                System.out.println(gpt_op_c);
                 String gpt_op_d = gpt.generateOption(GPTAnswer,"D");
+                System.out.println(gpt_op_d);
                 String correct_ans = gpt.generateCorrectOption();
                 ExamQuestion examQuestion = new ExamQuestion();
                 examQuestion.setQuestionText(GPTAnswer);
@@ -79,6 +86,24 @@ public class ExamQuestionController {
     }
 
 
+    @GetMapping("/showQuestion")
+    public R<List<ExamQuestion>> showQuestion(@RequestParam(name = "TotalNum", defaultValue = "5") Integer TotalNum){
+        try {
+//            Page<ExamQuestion> page = new Page<>(1, TotalNum); // 第一页，取totalNum个记录
+//            page.addOrder(OrderItem.desc("rand()")); // 使用数据库的随机函数排序
+//            List<ExamQuestion> examQuestions = examQuestionService.page(page, null).getRecords();
+//            return R.success(examQuestions);
+            List<ExamQuestion> examQuestions = examQuestionService.list();
+            // 打乱列表
+            Collections.shuffle(examQuestions);
+            // 选择前TotalNum个问题
+            List<ExamQuestion> randomQuestions = examQuestions.subList(0, Math.min(TotalNum, examQuestions.size()));
+            return R.success(randomQuestions);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return R.error(e.getMessage());
+        }
+    }
     @GetMapping("/get")
     public R<ExamQuestionResponseVO> getExamQuestion(@RequestParam Integer id) {
         try {

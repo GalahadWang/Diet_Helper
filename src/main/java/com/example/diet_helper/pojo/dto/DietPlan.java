@@ -20,7 +20,7 @@ public class DietPlan {
     private String mealName;
     private String ingredients;
     @TableField(value = "is_public")
-    private Boolean isPublic;
+    private Integer isPublic;
     private String instructions;
     private Date generatedDate;
 
