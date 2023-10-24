@@ -68,7 +68,7 @@ public class DietPlanServiceImpl extends ServiceImpl<DietMapper, DietPlan> imple
 
                 // 其他属性
                 dietPlan.setUserId(requestVO.getUserId());
-                dietPlan.setGenerateDate(new Date());  // 设置当前日期为生成日期
+                dietPlan.setGeneratedDate(new Date());  // 设置当前日期为生成日期
 
                 dietPlanList.add(dietPlan);
             }
@@ -85,7 +85,7 @@ public class DietPlanServiceImpl extends ServiceImpl<DietMapper, DietPlan> imple
     }
 
     @Override
-    public List<DietPlan> getDietPlans(Integer userId) {
+    public List<DietPlan> getDietPlan(Integer userId) {
         return dietPlanMapper.findByUserId(userId);
     }
 }
