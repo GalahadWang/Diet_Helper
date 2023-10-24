@@ -194,9 +194,9 @@ public class GPT {
     }
 
     // 生成正确答案（D）
-    public String generateCorrectOption(String questionText, String optionA, String optionB, String optionC , String optionD) {
+    public String generateCorrectOption() {
         // 从ABCD四个选项中随机选择一个作为正确答案
-        String[] options = new String[] {optionA, optionB, optionC, optionD};
+        String[] options = new String[] {"A", "B", "C", "D"};
         String correctOption = options[random.nextInt(options.length)];
         return correctOption;
     }
@@ -212,14 +212,15 @@ public class GPT {
         String optionC = generateOption(questionText, "C");
         String optionD = generateOption(questionText, "D");
         // 生成正确答案
-        String correctOption = generateCorrectOption(questionText, optionA, optionB, optionC,optionD);
+        String correctOption = generateCorrectOption();
 
         // 构建完整的选择题
         String multipleChoiceQuestion = "问题：" + questionText + "\n" +
                 "A. " + optionA + "\n" +
                 "B. " + optionB + "\n" +
                 "C. " + optionC + "\n" +
-                "D. " + correctOption;
+                "D. " + optionC + "\n" +
+                "The Correct is that" + correctOption;
 
         return multipleChoiceQuestion;
     }
