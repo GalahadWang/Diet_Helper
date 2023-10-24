@@ -38,7 +38,7 @@ public class DietPlanServiceImpl extends ServiceImpl<DietMapper, DietPlan> imple
         // 将生成的饮食计划与请求中的其他信息一起存储到数据库
         DietPlan dietPlan = new DietPlan();
         BeanUtils.copyProperties(requestVO, dietPlan);
-        dietPlan.setInstructions(generatedDietPlan);
+//        dietPlan.setInstructions(generatedDietPlan);
 
         dietPlan.setGeneratedDate(new Date());
         dietPlanMapper.insert(dietPlan);

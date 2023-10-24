@@ -140,7 +140,9 @@ public class UserController {
         updateWrapper.set("is_public",1);
 
         dietMapper.update(null,updateWrapper);
-        List<DietPlan> dietPlans = dietPlanService.list();
+        QueryWrapper<DietPlan> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",user_id);
+        List<DietPlan> dietPlans = dietPlanService.list(queryWrapper);
         return R.success(dietPlans);
     }
 }
