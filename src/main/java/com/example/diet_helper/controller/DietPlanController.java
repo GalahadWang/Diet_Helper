@@ -29,9 +29,14 @@ public class DietPlanController {
         }
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get-all")
     public R<List<DietPlan>> getDietPlans(@RequestParam Integer userId) {
         List<DietPlan> dietPlans = dietPlanService.getDietPlan(userId);
+        return R.success(dietPlans);
+    }
+    @GetMapping("/get-by-day")
+    public R<List<DietPlan>> getDietPlansByDay(@RequestParam Integer userId,@RequestParam Integer day) {
+        List<DietPlan> dietPlans = dietPlanService.getDietPlanByDay(userId,day);
         return R.success(dietPlans);
     }
 }

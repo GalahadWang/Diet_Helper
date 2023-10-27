@@ -77,4 +77,9 @@ public class DietPlanServiceImpl extends ServiceImpl<DietMapper, DietPlan> imple
     public List<DietPlan> getDietPlan(Integer userId) {
         return dietPlanMapper.findByUserId(userId);
     }
+
+    @Override
+    public List<DietPlan> getDietPlanByDay(Integer id, Integer day) {
+        return dietPlanMapper.findByUserIdAndDay(id,day);
+    }
 }

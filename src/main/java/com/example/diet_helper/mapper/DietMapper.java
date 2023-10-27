@@ -11,4 +11,6 @@ import java.util.List;
 public interface DietMapper extends BaseMapper<DietPlan> {
     @Select("SELECT * FROM diet_plans WHERE user_id = #{userId}")
     List<DietPlan> findByUserId(Integer userId);
+    @Select("SELECT * FROM diet_plans WHERE user_id = #{userId} AND which_day = #{day}")
+    List<DietPlan> findByUserIdAndDay(Integer userId, Integer day);
 }

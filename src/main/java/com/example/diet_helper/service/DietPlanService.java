@@ -14,4 +14,7 @@ public interface DietPlanService extends IService<DietPlan>{
 
     List<DietPlan> getDietPlan(Integer id);
 
+    List<DietPlan> getDietPlanByDay(Integer id,Integer day);
+
+
 }

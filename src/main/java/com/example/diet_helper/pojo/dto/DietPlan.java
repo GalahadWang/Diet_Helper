@@ -12,8 +12,8 @@ import java.util.Date;
 @Data
 @TableName(value = "diet_plans")
 public class DietPlan {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "plan_id", type = IdType.AUTO)
+    private Integer planId;
     @TableField(value = "user_id")
     private Integer userId;
     @TableField(value = "meal_name")
@@ -21,10 +21,10 @@ public class DietPlan {
     @TableField(value = "is_public")
     private Boolean isPublic;
     private String meal;
+    private String ingredients;
+    private String instructions;
     @TableField(value = "generated_date")
     private Date generatedDate;
     @TableField(value = "which_day")
     private Integer whichDay;
-
-
 }
