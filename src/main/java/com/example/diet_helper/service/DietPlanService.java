@@ -12,6 +12,9 @@ import java.util.List;
 public interface DietPlanService extends IService<DietPlan>{
     DietPlanResponseVO createDietPlan(DietPlanRequestVO requestVO);
 
-    DietPlanResponseVO getDietPlan(Integer id);
+    List<DietPlan> getDietPlan(Integer id);
+
+    List<DietPlan> getDietPlanByDay(Integer id,Integer day);
+
 
 }

@@ -18,8 +18,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/generate")
+
 public class ExamQuestionController {
 
     @Autowired

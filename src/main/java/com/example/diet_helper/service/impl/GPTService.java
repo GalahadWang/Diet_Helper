@@ -13,7 +13,7 @@ public class GPTService {
     @Autowired
     private OpenAiService openAiService;
 
-    public String getDietAdvice(String prompt) {
+    public String getFromGPT(String prompt) {
         CompletionRequest request = CompletionRequest.builder()
                 .model("gpt-3.5-turbo-instruct")
                 .prompt(prompt)
