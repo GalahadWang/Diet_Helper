@@ -92,8 +92,6 @@ public class UserController {
             User existUser = userService.getOne(queryWrapper);
             return R.success(existUser);
         }
-
-
         response.setStatus(403);
         return R.error("Failed to register");
     }
