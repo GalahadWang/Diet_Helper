@@ -1,8 +1,12 @@
 package com.example.diet_helper.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.diet_helper.common.R;
+import com.example.diet_helper.mapper.DietMapper;
+import com.example.diet_helper.pojo.dto.DietPlan;
 import com.example.diet_helper.pojo.dto.User;
+import com.example.diet_helper.service.DietPlanService;
 import com.example.diet_helper.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -19,7 +25,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DietMapper dietMapper;
 
+    @Autowired
+    private DietPlanService dietPlanService;
     @PostMapping("/login")
     @CrossOrigin(origins = "*", maxAge = 3600)
     public R<User> login(HttpServletRequest request, @RequestBody User user, HttpServletResponse response){
@@ -101,6 +111,37 @@ public class UserController {
             userService.updateById(user);
             return R.success(user);
         }
+    }
+
+    @PostMapping("/updateToNutritionist")
+    public R<User> upgrade(@RequestBody User user){
+        System.out.println(user);
+        if (user.getId() == null) {
+            System.out.println("User doesn't exist");
+//            userService.save(user);
+            return R.error("This user does not exist");
+        } else {
+            System.out.println("User already existed, update now");
+            User existUser = new User();
+            existUser = userService.getById(user.getId());
+            existUser.setRole("nutritionist");
+            userService.updateById(existUser);
+            return R.success(existUser);
+        }
+    }
+
+    @PostMapping("/share")
+    public R<List<DietPlan>> sharePlan (@RequestBody User user){
+        System.out.println(user);
+        Integer user_id = user.getId();
+        UpdateWrapper<DietPlan> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("user_id",user_id);
+        updateWrapper.eq("is_public", 0);
+        updateWrapper.set("is_public",1);
+
+        dietMapper.update(null,updateWrapper);
+        List<DietPlan> dietPlans = dietPlanService.list();
+        return R.success(dietPlans);
     }
 }
 

@@ -78,7 +78,7 @@ public class ExamQuestionServiceImpl extends ServiceImpl<ExamQuestionMapper, Exa
         String gpt_op_b = gpt.generateOption(GPTAnswer,"B");
         String gpt_op_c = gpt.generateOption(GPTAnswer,"C");
         String gpt_op_d = gpt.generateOption(GPTAnswer,"D");
-        String correct_ans = gpt.generateCorrectOption(GPTAnswer,gpt_op_a,gpt_op_b,gpt_op_c,gpt_op_d);
+        String correct_ans = gpt.generateCorrectOption();
         ExamQuestionResponseVO examQuestionResponseVO = new ExamQuestionResponseVO();
         examQuestionResponseVO.setQuestionText(GPTAnswer);
         examQuestionResponseVO.setOptionA(gpt_op_a);
@@ -91,41 +91,61 @@ public class ExamQuestionServiceImpl extends ServiceImpl<ExamQuestionMapper, Exa
 
     @Override
     public List<ExamQuestionResponseVO> createExamQuestion(Integer questionTotalNum) {
-        int numQuestionsToGenerate = questionTotalNum;
+        return null;
+    }
+
+    @Override
+    public List<ExamQuestionResponseVO> createExamQuestion(ExamQuestionRequestVO examQuestionRequestVO) {
+        int numQuestionsToGenerate = examQuestionRequestVO.getNum();
 
         // Create a list to store the generated questions
         List<ExamQuestionResponseVO> responseList = new ArrayList<>();
 
         // Loop to generate the specified number of questions
         for (int i = 0; i < numQuestionsToGenerate; i++) {
+            String GPTAnswer = gpt.generateQuestionText();
+            System.out.println(GPTAnswer);
+            String gpt_op_a = gpt.generateOption(GPTAnswer,"A");
+            String gpt_op_b = gpt.generateOption(GPTAnswer,"B");
+            String gpt_op_c = gpt.generateOption(GPTAnswer,"C");
+            String gpt_op_d = gpt.generateOption(GPTAnswer,"D");
+            String correct_ans = gpt.generateCorrectOption();
+            ExamQuestionResponseVO examQuestionResponseVO = new ExamQuestionResponseVO();
+            examQuestionResponseVO.setQuestionText(GPTAnswer);
+            examQuestionResponseVO.setOptionA(gpt_op_a);
+            examQuestionResponseVO.setOptionB(gpt_op_b);
+            examQuestionResponseVO.setOptionC(gpt_op_c);
+            examQuestionResponseVO.setOptionD(gpt_op_d);
+            examQuestionResponseVO.setCorrectOption(correct_ans);
+//            examQuestionMapper.insert(examQuestionResponseVO);
             // Generate a complete multiple-choice question using GPT
-            String multipleChoiceQuestion = gpt.generateMultipleChoiceQuestion();
-
-            // Extract the question text, options, and correct option from the generated question
-            String[] questionParts = multipleChoiceQuestion.split("\n");
-
-            String questionText = questionParts[0].replace("问题：", "").trim();
-            String optionA = questionParts[1].replace("A. ", "").trim();
-            String optionB = questionParts[2].replace("B. ", "").trim();
-            String optionC = questionParts[3].replace("C. ", "").trim();
-            String optionD = questionParts[4].replace("D. ", "").trim();
-
-            String correctOption = questionParts[5].replace("D. ", "").trim();
-
-            // Store the generated question and options in the database
-            ExamQuestion examQuestion = new ExamQuestion();
-            examQuestion.setQuestionText(questionText);
-            examQuestion.setOptionA(optionA);
-            examQuestion.setOptionB(optionB);
-            examQuestion.setOptionC(optionC);
-            examQuestion.setOptionD(optionD);
-            examQuestion.setCorrectOption(correctOption);
-
-            examQuestionMapper.insert(examQuestion);
-
-            ExamQuestionResponseVO responseVO = new ExamQuestionResponseVO();
-            BeanUtils.copyProperties(examQuestion, responseVO);
-            responseList.add(responseVO);
+//            String multipleChoiceQuestion = gpt.generateMultipleChoiceQuestion();
+//
+//            // Extract the question text, options, and correct option from the generated question
+//            String[] questionParts = multipleChoiceQuestion.split("\n");
+//
+//            String questionText = questionParts[0].replace("问题：", "").trim();
+//            String optionA = questionParts[1].replace("A. ", "").trim();
+//            String optionB = questionParts[2].replace("B. ", "").trim();
+//            String optionC = questionParts[3].replace("C. ", "").trim();
+//            String optionD = questionParts[4].replace("D. ", "").trim();
+//
+//            String correctOption = questionParts[5].replace("D. ", "").trim();
+//
+//            // Store the generated question and options in the database
+//            ExamQuestion examQuestion = new ExamQuestion();
+//            examQuestion.setQuestionText(questionText);
+//            examQuestion.setOptionA(optionA);
+//            examQuestion.setOptionB(optionB);
+//            examQuestion.setOptionC(optionC);
+//            examQuestion.setOptionD(optionD);
+//            examQuestion.setCorrectOption(correctOption);
+//
+//            examQuestionMapper.insert(examQuestion);
+//
+//            ExamQuestionResponseVO responseVO = new ExamQuestionResponseVO();
+//            BeanUtils.copyProperties(examQuestion, responseVO);
+//            responseList.add(responseVO);
         }
 
         return responseList;

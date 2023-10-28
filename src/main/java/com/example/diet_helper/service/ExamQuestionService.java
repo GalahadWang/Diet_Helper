@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface ExamQuestionService extends IService<ExamQuestion>{
     List<ExamQuestionResponseVO> createExamQuestion(Integer questionTotalNum);
+
+    List<ExamQuestionResponseVO> createExamQuestion(ExamQuestionRequestVO examQuestionRequestVO);
+
     ExamQuestionResponseVO getExamQuestion(Integer id);
     ExamQuestionResponseVO createExamQuestion1();
 

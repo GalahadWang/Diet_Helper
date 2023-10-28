@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class User {
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
     private String username;
     @TableField(value = "password_hash")
     private String passwordHash;

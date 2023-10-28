@@ -164,14 +164,14 @@ public class GPT {
     // 生成一道题目的问题文本
     public String generateQuestionText() {
         // 实现逻辑以生成问题文本的提示
-        String prompt = "生成一个有关于健康饮食的问题：\n";
+        String prompt = "Please only generate one question about healthy eating：\n";
 
         // 调用ChatGPT生成问题文本
         CompletionRequest request = CompletionRequest.builder()
                 .model("gpt-3.5-turbo-instruct")
                 .prompt(prompt)
-                .maxTokens(1000)
-                .temperature(0.7)
+                .maxTokens(200)
+                .temperature(0.3)
                 .build();
 
         return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
@@ -180,23 +180,23 @@ public class GPT {
     // 生成一个选项（A、B、C、D）
     public String generateOption(String questionText, String optionLetter) {
         // 构建提示以生成特定选项
-        String prompt = "生成选项" + optionLetter + "，基于以下问题：\n" + questionText + "\n";
+        String prompt = "Please generate only an option" + optionLetter + ", based on this question：\n" + questionText + "\n";
 
         // 调用ChatGPT生成选项
         CompletionRequest request = CompletionRequest.builder()
                 .model("gpt-3.5-turbo-instruct")
                 .prompt(prompt)
-                .maxTokens(1000)
-                .temperature(0.7)
+                .maxTokens(100)
+                .temperature(0.3)
                 .build();
 
         return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
     }
 
     // 生成正确答案（D）
-    public String generateCorrectOption(String questionText, String optionA, String optionB, String optionC , String optionD) {
+    public String generateCorrectOption() {
         // 从ABCD四个选项中随机选择一个作为正确答案
-        String[] options = new String[] {optionA, optionB, optionC, optionD};
+        String[] options = new String[] {"A", "B", "C", "D"};
         String correctOption = options[random.nextInt(options.length)];
         return correctOption;
     }
@@ -212,14 +212,15 @@ public class GPT {
         String optionC = generateOption(questionText, "C");
         String optionD = generateOption(questionText, "D");
         // 生成正确答案
-        String correctOption = generateCorrectOption(questionText, optionA, optionB, optionC,optionD);
+        String correctOption = generateCorrectOption();
 
         // 构建完整的选择题
         String multipleChoiceQuestion = "问题：" + questionText + "\n" +
                 "A. " + optionA + "\n" +
                 "B. " + optionB + "\n" +
                 "C. " + optionC + "\n" +
-                "D. " + correctOption;
+                "D. " + optionC + "\n" +
+                "The Correct is that" + correctOption;
 
         return multipleChoiceQuestion;
     }
