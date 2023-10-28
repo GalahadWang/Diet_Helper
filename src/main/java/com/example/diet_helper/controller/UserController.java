@@ -70,26 +70,27 @@ public class UserController {
     }
 
     @PostMapping("/Signup")
-    public R<User> signup(@RequestBody User cond, HttpServletResponse response) {
-        System.out.println(cond);
+    public R<User> signup(@RequestBody User user, HttpServletResponse response) {
+        System.out.println(user);
 
         // Check if the email is already in use
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("email", cond.getEmail());
+        wrapper.eq("email", user.getEmail());
 
         User exist = userService.getOne(wrapper);
 
         if (exist != null) {
-            System.out.println(cond);
+            System.out.println(user);
             return R.error("Email has been used");
         }
         // Set a default value for username
-        if (cond.getEmail() != null) {
+        if (user.getEmail() != null) {
 //            cond.setUsername("DefaultUsername");
-            userService.save(cond);
-            System.out.println(cond);
-
-            return R.success(cond);
+            userService.save(user);
+            QueryWrapper<User> queryWrapper = new QueryWrapper();
+            queryWrapper.eq("email", user.getEmail());
+            User existUser = userService.getOne(queryWrapper);
+            return R.success(existUser);
         }
 
 
