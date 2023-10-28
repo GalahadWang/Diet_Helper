@@ -145,6 +145,25 @@ public class UserController {
         List<DietPlan> dietPlans = dietPlanService.list(queryWrapper);
         return R.success(dietPlans);
     }
+
+    @GetMapping("/showProfile")
+    public R<User> showProfile(@RequestBody User user){
+        Integer user_id = user.getId();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", user_id);
+        User existUser = userService.getOne(queryWrapper);
+        return R.success(existUser);
+    }
+
+    @GetMapping("/welcome")
+    public R<String> welcomePage(){
+        String senctence = userService.WelcomeSenctence();
+        try {
+            return R.success(senctence);
+        }catch (Exception e){
+            return R.error(e.getMessage());
+        }
+    }
 }
 
 

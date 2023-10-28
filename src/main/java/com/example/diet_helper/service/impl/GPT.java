@@ -10,156 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//public class GPT {
-//    @Autowired
-//    private static OpenAiService openAiService;
-//
-//    public static String generateOptionE(String userInfo, String optionA, String optionB, String optionC,String optionD) {
-//        // 构建GPT-3请求的prompt，包括用户信息和选项信息
-//        String prompt = userInfo + "Here are the options:\n" +
-//                "A. " + optionA + "\n" +
-//                "B. " + optionB + "\n" +
-//                "C. " + optionC + "\n" +
-//                "D. " + optionC + "\n" +
-//                "E. ";
-//
-//        // 使用GPT-3生成选项D
-//        CompletionRequest request = CompletionRequest.builder()
-//                .model("gpt-3.5-turbo-instruct")
-//                .prompt(prompt)
-//                .maxTokens(1)  // 生成一个单词，即选项D
-//                .build();
-//
-//        List<CompletionChoice> choices = openAiService.createCompletion(request).getChoices();
-//        if (!choices.isEmpty()) {
-//            return choices.get(0).getText().trim();
-//        }
-//        return "未能生成选项E。";
-//    }
-//}
-
-//public class GPT {
-//    @Autowired
-//    private static OpenAiService openAiService;
-//
-//    public static String generateQuestionText() {
-//        // Construct a prompt for generating the question text in Chinese
-//        String prompt = "生成一个关于健康的多选题问题：\n";
-//
-//        // Implement the logic to call ChatGPT to generate the question text in Chinese
-//        CompletionRequest request = CompletionRequest.builder()
-//                .model("text-davinci-002")  // Use the appropriate GPT-3 model
-//                .prompt(prompt)
-//                .maxTokens(50)  // Adjust the token limit as needed
-//                .temperature(0.7)  // Adjust the temperature parameter as needed
-//                .build();
-//
-//        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
-//    }
-//
-//    public static String generateOptionA(String questionText) {
-//        // Construct a prompt for generating option A in Chinese based on the provided question text
-//        String prompt = "生成选项A，基于以下问题：\n" + questionText + "\n";
-//
-//        // Implement the logic to call ChatGPT to generate option A in Chinese
-//        CompletionRequest request = CompletionRequest.builder()
-//                .model("text-davinci-002")  // Use the appropriate GPT-3 model
-//                .prompt(prompt)
-//                .maxTokens(20)  // Adjust the token limit as needed
-//                .temperature(0.7)  // Adjust the temperature parameter as needed
-//                .build();
-//
-//        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
-//    }
-//
-//    public static String generateOptionB(String questionText) {
-//        // Construct a prompt for generating option B in Chinese based on the provided question text
-//        String prompt = "生成选项B，基于以下问题：\n" + questionText + "\n";
-//
-//        // Implement the logic to call ChatGPT to generate option B in Chinese
-//        CompletionRequest request = CompletionRequest.builder()
-//                .model("text-davinci-002")  // Use the appropriate GPT-3 model
-//                .prompt(prompt)
-//                .maxTokens(20)  // Adjust the token limit as needed
-//                .temperature(0.7)  // Adjust the temperature parameter as needed
-//                .build();
-//
-//        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
-//    }
-//
-//    public static String generateOptionC(String questionText) {
-//        // Construct a prompt for generating option C in Chinese based on the provided question text
-//        String prompt = "生成选项C，基于以下问题：\n" + questionText + "\n";
-//
-//        // Implement the logic to call ChatGPT to generate option C in Chinese
-//        CompletionRequest request = CompletionRequest.builder()
-//                .model("text-davinci-002")  // Use the appropriate GPT-3 model
-//                .prompt(prompt)
-//                .maxTokens(20)  // Adjust the token limit as needed
-//                .temperature(0.7)  // Adjust the temperature parameter as needed
-//                .build();
-//
-//        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
-//    }
-//
-//    public static String generateOptionD(String questionText, String optionA, String optionB, String optionC) {
-//        // Construct a prompt for generating option D in Chinese based on the provided question text and options A, B, and C
-//        String prompt = "生成选项D，基于以下问题和选项：\n" +
-//                questionText + "\n" +
-//                "选项A：" + optionA + "\n" +
-//                "选项B：" + optionB + "\n" +
-//                "选项C：" + optionC + "\n";
-//
-//        // Implement the logic to call ChatGPT to generate option D in Chinese
-//        CompletionRequest request = CompletionRequest.builder()
-//                .model("text-davinci-002")  // Use the appropriate GPT-3 model
-//                .prompt(prompt)
-//                .maxTokens(20)  // Adjust the token limit as needed
-//                .temperature(0.7)  // Adjust the temperature parameter as needed
-//                .build();
-//
-//        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
-//    }    public static String generateOptionD(String questionText) {
-//        // Construct a prompt for generating option C in Chinese based on the provided question text
-//        String prompt = "生成选项D，基于以下问题：\n" + questionText + "\n";
-//
-//        // Implement the logic to call ChatGPT to generate option C in Chinese
-//        CompletionRequest request = CompletionRequest.builder()
-//                .model("text-davinci-002")  // Use the appropriate GPT-3 model
-//                .prompt(prompt)
-//                .maxTokens(20)  // Adjust the token limit as needed
-//                .temperature(0.7)  // Adjust the temperature parameter as needed
-//                .build();
-//
-//        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
-//    }
-//
-//    public static String generateCorrectOption(String questionText, String optionA, String optionB, String optionC, String optionD) {
-//        // Construct a prompt for generating the correct option (D) in Chinese based on the provided question text and options (A, B, C, D)
-//        String prompt = "生成正确答案 (E)，基于以下问题和选项：\n" +
-//                questionText + "\n" +
-//                "选项A：" + optionA + "\n" +
-//                "选项B：" + optionB + "\n" +
-//                "选项C：" + optionC + "\n" +
-//                "选项D：" + optionD + "\n";
-//
-//        // Implement the logic to call ChatGPT to generate the correct option (D) in Chinese
-//        CompletionRequest request = CompletionRequest.builder()
-//                .model("text-davinci-002")  // Use the appropriate GPT-3 model
-//                .prompt(prompt)
-//                .maxTokens(20)  // Adjust the token limit as needed
-//                .temperature(0.7)  // Adjust the temperature parameter as needed
-//                .build();
-//
-//        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
-//    }
-//}
 @Service
 public class GPT {
     @Autowired
     private OpenAiService openAiService;
 
     private final Random random = new Random();
+
+    public String EncourageSenctence(){
+        String prompt = "Please generate a sentence that encourages people to live a healthy life：\n";
+
+        CompletionRequest request = CompletionRequest.builder()
+                .model("gpt-3.5-turbo-instruct")
+                .prompt(prompt)
+                .maxTokens(200)
+                .temperature(0.7)
+                .build();
+
+        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
+    }
 
     // 生成一道题目的问题文本
     public String generateQuestionText() {

@@ -6,5 +6,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 public interface UserService extends IService<User> {
-
+     String WelcomeSenctence();
 }
