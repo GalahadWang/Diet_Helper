@@ -6,6 +6,7 @@ import com.example.diet_helper.common.R;
 import com.example.diet_helper.mapper.DietMapper;
 import com.example.diet_helper.pojo.dto.DietPlan;
 import com.example.diet_helper.pojo.dto.User;
+import com.example.diet_helper.pojo.vo.request.CommonQuestionVo;
 import com.example.diet_helper.service.DietPlanService;
 import com.example.diet_helper.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -158,6 +159,17 @@ public class UserController {
     @GetMapping("/welcome")
     public R<String> welcomePage(){
         String senctence = userService.WelcomeSenctence();
+        try {
+            return R.success(senctence);
+        }catch (Exception e){
+            return R.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/commonQuestion")
+    public R<String> commonQuestion(@RequestBody CommonQuestionVo commonQuestionVo){
+        System.out.println(commonQuestionVo);
+        String senctence = userService.CommonQuestion(commonQuestionVo);
         try {
             return R.success(senctence);
         }catch (Exception e){
