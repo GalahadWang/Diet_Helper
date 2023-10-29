@@ -20,10 +20,10 @@ public class DietPlanController {
     DietPlanService dietPlanService;
 
     @PostMapping("/create")
-    public R<DietPlanResponseVO> createDietPlan(@RequestBody DietPlanRequestVO requestVO) {
+    public R<String> createDietPlan(@RequestBody DietPlanRequestVO requestVO) {
         try {
-            DietPlanResponseVO responseVO = dietPlanService.createDietPlan(requestVO);
-            return R.success(responseVO);
+            String result = dietPlanService.createDietPlan(requestVO);
+            return R.success(result);
         } catch (Exception e) {
             return R.error(e.getMessage());
         }

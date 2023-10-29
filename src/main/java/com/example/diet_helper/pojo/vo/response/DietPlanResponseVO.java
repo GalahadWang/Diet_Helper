@@ -9,8 +9,6 @@ public class DietPlanResponseVO {
     private Integer userId;
     private Integer goalWeight;
     private String mealName;
-    private String ingredients;
     private Boolean isPublic;
-    private String instructions;
     private LocalDateTime generatedDate;
 }
