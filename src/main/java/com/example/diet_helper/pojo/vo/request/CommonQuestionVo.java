@@ -8,5 +8,5 @@ public class CommonQuestionVo {
     private Integer weight;
     private Integer age;
 //    private Integer targetWeight;
-    private String Question;
+    private String question;
 }

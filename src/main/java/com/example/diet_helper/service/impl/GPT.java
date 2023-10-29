@@ -20,7 +20,7 @@ public class GPT {
     private final Random random = new Random();
 
     public String AnswerQuestion(CommonQuestionVo commonQuestionVo){
-        String prompt = "Judge health status, and weight recommendations"+
+        String prompt = "From the standard of ordinary people, answer the question:"+commonQuestionVo.getQuestion()+
                 " based on the user's height:"+commonQuestionVo.getHeight()+
                 ", weight:"+commonQuestionVo.getWeight()+", age:"+commonQuestionVo.getAge();
 //                ", target weight:"+commonQuestionVo.getTargetWeight();
