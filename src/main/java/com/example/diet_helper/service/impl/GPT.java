@@ -27,7 +27,7 @@ public class GPT {
         CompletionRequest request = CompletionRequest.builder()
                 .model("gpt-3.5-turbo-instruct")
                 .prompt(prompt)
-                .maxTokens(200)
+                .maxTokens(100)
                 .temperature(0.7)
                 .build();
 
