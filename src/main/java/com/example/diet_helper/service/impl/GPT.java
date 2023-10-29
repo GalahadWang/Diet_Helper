@@ -1,5 +1,7 @@
 package com.example.diet_helper.service.impl;
 
+import com.example.diet_helper.pojo.dto.User;
+import com.example.diet_helper.pojo.vo.request.CommonQuestionVo;
 import com.theokanning.openai.OpenAiService;
 import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionRequest;
@@ -16,6 +18,21 @@ public class GPT {
     private OpenAiService openAiService;
 
     private final Random random = new Random();
+
+    public String AnswerQuestion(CommonQuestionVo commonQuestionVo){
+        String prompt = "Judge health status, and weight recommendations"+
+                " based on the user's height:"+commonQuestionVo.getHeight()+
+                ", weight:"+commonQuestionVo.getWeight()+", age:"+commonQuestionVo.getAge();
+//                ", target weight:"+commonQuestionVo.getTargetWeight();
+        CompletionRequest request = CompletionRequest.builder()
+                .model("gpt-3.5-turbo-instruct")
+                .prompt(prompt)
+                .maxTokens(200)
+                .temperature(0.7)
+                .build();
+
+        return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
+    }
 
     public String EncourageSenctence(){
         String prompt = "Please generate a sentence that encourages people to live a healthy life：\n";
