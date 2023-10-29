@@ -28,7 +28,7 @@ public class CookingController {
         }
     }
     @GetMapping("/instructions")
-    public R<CookingInstructionResponseVO> getCookingInstructions(@RequestBody CookingInstructionRequestVO requestVO) {
-        CookingInstructionResponseVO responseVO = cookingService.getCookingInstructions(requestVO);
+    public R<CookingInstructionResponseVO> getCookingInstructions(@RequestParam Integer planId) {
+        CookingInstructionResponseVO responseVO = cookingService.getCookingInstructions(planId);
         return R.success(responseVO);}
 }

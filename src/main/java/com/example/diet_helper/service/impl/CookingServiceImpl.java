@@ -50,9 +50,9 @@ public class CookingServiceImpl extends ServiceImpl<DietMapper, DietPlan> implem
     }
 
     @Override
-    public CookingInstructionResponseVO getCookingInstructions(CookingInstructionRequestVO requestVO) {
+    public CookingInstructionResponseVO getCookingInstructions(Integer planId) {
         // 使用DietMapper查询DietPlan
-        DietPlan dietPlan = dietMapper.selectById(requestVO.getPlanId());
+        DietPlan dietPlan = dietMapper.selectById(planId);
 
         // 如果dietPlan不存在，返回null或抛出一个异常
         if (dietPlan == null) {

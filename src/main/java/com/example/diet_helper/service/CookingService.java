@@ -6,5 +6,5 @@ import com.example.diet_helper.pojo.vo.response.CookingInstructionResponseVO;
 public interface CookingService {
     void generateCookingInstructions(CookingInstructionRequestVO requestVO);
 
-    CookingInstructionResponseVO getCookingInstructions(CookingInstructionRequestVO requestVO);
+    CookingInstructionResponseVO getCookingInstructions(Integer planId);
 }
