@@ -35,7 +35,7 @@ public class DietPlanServiceImpl extends ServiceImpl<DietMapper, DietPlan> imple
                 ", Height: " + requestVO.getHeight() +
                 ", Age: " + requestVO.getAge() +
                 "You must answer only in the following format:" +
-                "mealname:; Meal:;" +
+                "Meal number:; Meal:;" +
                 "For example: Meal 1: Breakfast\n Meal: Oatmeal with almond milk, sliced bananas, and a sprinkle of cinnamon." +
                 "Generates up to 6 meals." +
                 "Please format your answer strictly according to the example I gave you, including capitalization." +
