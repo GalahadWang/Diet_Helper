@@ -6,26 +6,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 通用返回结果，服务端响应的数据最终都会封装成此对象
+ * The generic return result, server response data will eventually be encapsulated into this object
  * @param <T>
  */
 @Data
 public class R<T> {
 
-    private Integer code; //编码：1成功，0和其它数字为失败
+    private Integer code; //Code: 1 success, 0 and other numbers are failures
 
-    private String msg; //错误信息
+    private String msg; //Error message
 
     private static String successMsg = "";
 
-    private T data; //数据
+    private T data; //data
 
-    private Map map = new HashMap(); //动态数据
+    private Map map = new HashMap(); //Dynamic data
 
-//    public R() {
-//        this.code = 1; // 默认为成功
-//        this.msg = ""; // 初始化为空字符串
-//    }
 
     public static <T> R<T> success(T object) {
         R<T> r = new R<T>();
@@ -49,7 +45,7 @@ public class R<T> {
     public void appendSuccessMessage(String customMessage){
         if (customMessage != null && !customMessage.isEmpty()) {
             if (successMsg.isEmpty()) {
-                successMsg += "; "; // 分隔多条消息
+                successMsg += "; "; // Separate multiple messages
             }
             successMsg += customMessage;
         }

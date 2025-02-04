@@ -91,14 +91,10 @@ public class ExamQuestionController {
     @GetMapping("/showQuestion")
     public R<List<ExamQuestion>> showQuestion(@RequestParam(name = "TotalNum", defaultValue = "5") Integer TotalNum){
         try {
-//            Page<ExamQuestion> page = new Page<>(1, TotalNum); // 第一页，取totalNum个记录
-//            page.addOrder(OrderItem.desc("rand()")); // 使用数据库的随机函数排序
-//            List<ExamQuestion> examQuestions = examQuestionService.page(page, null).getRecords();
-//            return R.success(examQuestions);
             List<ExamQuestion> examQuestions = examQuestionService.list();
-            // 打乱列表
+            // Shuffle the list
             Collections.shuffle(examQuestions);
-            // 选择前TotalNum个问题
+            // Select the former TotalNum problem
             List<ExamQuestion> randomQuestions = examQuestions.subList(0, Math.min(TotalNum, examQuestions.size()));
             return R.success(randomQuestions);
         }catch (Exception e){

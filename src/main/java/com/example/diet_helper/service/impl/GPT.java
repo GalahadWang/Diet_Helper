@@ -47,12 +47,12 @@ public class GPT {
         return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
     }
 
-    // 生成一道题目的问题文本
+    // Generate problem text for a topic
     public String generateQuestionText() {
-        // 实现逻辑以生成问题文本的提示
+        // Implement the logic to generate a prompt for the problem text
         String prompt = "Please only generate one question about healthy eating：\n";
 
-        // 调用ChatGPT生成问题文本
+        // Call ChatGPT to generate question text
         CompletionRequest request = CompletionRequest.builder()
                 .model("gpt-3.5-turbo-instruct")
                 .prompt(prompt)
@@ -63,12 +63,12 @@ public class GPT {
         return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
     }
 
-    // 生成一个选项（A、B、C、D）
+    // Generate an option (A, B, C, D)
     public String generateOption(String questionText, String optionLetter) {
-        // 构建提示以生成特定选项
+        // Build prompts to generate specific options
         String prompt = "Please generate only an option" + optionLetter + ", based on this question：\n" + questionText + "\n";
 
-        // 调用ChatGPT生成选项
+        // Call the ChatGPT build option
         CompletionRequest request = CompletionRequest.builder()
                 .model("gpt-3.5-turbo-instruct")
                 .prompt(prompt)
@@ -79,28 +79,27 @@ public class GPT {
         return openAiService.createCompletion(request).getChoices().get(0).getText().trim();
     }
 
-    // 生成正确答案（D）
+    // Generate the correct answer
     public String generateCorrectOption() {
-        // 从ABCD四个选项中随机选择一个作为正确答案
         String[] options = new String[] {"A", "B", "C", "D"};
         String correctOption = options[random.nextInt(options.length)];
         return correctOption;
     }
 
-    // 生成一道完整的选择题
+    // Generate a complete multiple choice question
     public String generateMultipleChoiceQuestion() {
-        // 生成问题文本
+        // Generate problem text
         String questionText = generateQuestionText();
 
-        // 生成选项 A、B、C
+        // Generate problem text
         String optionA = generateOption(questionText, "A");
         String optionB = generateOption(questionText, "B");
         String optionC = generateOption(questionText, "C");
         String optionD = generateOption(questionText, "D");
-        // 生成正确答案
+        // Generate options A, B, C
         String correctOption = generateCorrectOption();
 
-        // 构建完整的选择题
+        // Construct complete multiple choice questions
         String multipleChoiceQuestion = "问题：" + questionText + "\n" +
                 "A. " + optionA + "\n" +
                 "B. " + optionB + "\n" +
@@ -111,7 +110,7 @@ public class GPT {
         return multipleChoiceQuestion;
     }
 
-    // 生成多道选择题
+    // Construct complete multiple choice questions
     public List<String> generateMultipleChoiceQuestions(int num) {
         List<String> questions = new ArrayList<>();
         for (int i = 0; i < num; i++) {

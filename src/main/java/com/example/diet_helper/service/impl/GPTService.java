@@ -24,7 +24,7 @@ public class GPTService {
         if (!choices.isEmpty()) {
             return choices.get(0).getText().trim();
         }
-        return "未能获取建议。";
+        return "Failed to get advice.";
     }
     public String getQuestion(String prompt){
         CompletionRequest request = CompletionRequest.builder()
@@ -36,6 +36,6 @@ public class GPTService {
         if (!choices.isEmpty()) {
             return choices.get(0).getText().trim();
         }
-        return "未能获取建议。";
+        return "Failed to get advice.";
     }
 }

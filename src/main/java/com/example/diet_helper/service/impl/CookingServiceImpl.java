@@ -22,7 +22,7 @@ public class CookingServiceImpl extends ServiceImpl<DietMapper, DietPlan> implem
     @Override
     public void generateCookingInstructions(CookingInstructionRequestVO requestVO) {
         Integer planId = requestVO.getPlanId();
-        // 使用planId找到相应的DietPlan
+        // Use planId to find the corresponding DietPlan
         DietPlan dietPlan = dietMapper.selectById(planId);
         if (dietPlan == null) {
             throw new RuntimeException("DietPlan with given planId not found.");
@@ -34,16 +34,16 @@ public class CookingServiceImpl extends ServiceImpl<DietMapper, DietPlan> implem
                 "You must reply in the following format: Ingredients: Instructions:" +
                 "Please do not include any information other than the format";
 
-        // 向GPT请求制作步骤
+        // Request production steps from GPT
         String instructionsResponse = gptService.getFromGPT(prompt);
         System.out.println(instructionsResponse);
 
-        // 从GPT返回的指令中解析ingredients和instructions
+        // Parse the ingredients and instructions from the instructions returned by GPT
         String[] parts = instructionsResponse.split("Instructions:");
         String ingredients = parts[0].replace("Ingredients:", "").trim();
         String instructions = parts[1].trim();
 
-        // 更新找到的DietPlan
+        // Update the DietPlan found
         dietPlan.setIngredients(ingredients);
         dietPlan.setInstructions(instructions);
         dietMapper.updateById(dietPlan);
@@ -51,15 +51,15 @@ public class CookingServiceImpl extends ServiceImpl<DietMapper, DietPlan> implem
 
     @Override
     public CookingInstructionResponseVO getCookingInstructions(Integer planId) {
-        // 使用DietMapper查询DietPlan
+        // Use DietMapper to query the DietPlan
         DietPlan dietPlan = dietMapper.selectById(planId);
 
-        // 如果dietPlan不存在，返回null或抛出一个异常
+        // If dietPlan does not exist, return null or throw an exception
         if (dietPlan == null) {
             return null;
         }
 
-        // 将检索到的数据映射到CookingInstructionResponseVO对象中
+        // Retrieves the data mapped to CookingInstructionResponseVO object
         CookingInstructionResponseVO responseVO = new CookingInstructionResponseVO();
         responseVO.setMealId(dietPlan.getPlanId());
         responseVO.setMealName(dietPlan.getMealName());
