@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenAIConfig {
-    @Value("${openai.token}")
+    @Value("Your own OpenAI Token")
     private String openaiToken;
 
     @Bean
